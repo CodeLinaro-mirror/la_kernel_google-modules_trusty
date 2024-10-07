@@ -328,6 +328,7 @@ static int trusty_irq_create_irq_mapping(struct trusty_irq_state *is, int irq)
 
 	if (irq_pos >= oirq.args_count) {
 		dev_err(is->dev, "irq pos is out of range: %d\n", irq_pos);
+		of_node_put(oirq.np);
 		return -EINVAL;
 	}
 
@@ -337,6 +338,7 @@ static int trusty_irq_create_irq_mapping(struct trusty_irq_state *is, int irq)
 	oirq.args[irq_pos] = irq - range_base;
 
 	ret = irq_create_of_mapping(&oirq);
+	of_node_put(oirq.np);
 
 	return (!ret) ? -EINVAL : ret;
 }
