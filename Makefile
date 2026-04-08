@@ -2,8 +2,8 @@ M ?= $(shell pwd)
 
 KBASE_PATH_RELATIVE = $(M)
 
-EXTRA_CFLAGS += -Werror
+CFLAGS_MODULE += -Werror
 
 modules modules_install clean:
 	$(MAKE) -C $(KERNEL_SRC) M=$(M) W=1 \
-	EXTRA_CFLAGS="$(EXTRA_CFLAGS)" KBUILD_EXTRA_SYMBOLS="$(EXTRA_SYMBOLS)" $(@)
+	CFLAGS_MODULE="$(CFLAGS_MODULE)" KBUILD_EXTRA_SYMBOLS="$(EXTRA_SYMBOLS)" $(@)
