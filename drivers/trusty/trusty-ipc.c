@@ -828,8 +828,7 @@ int tipc_chan_connect(struct tipc_chan *chan, const char *name)
 	msg->type = TIPC_CTRL_MSGTYPE_CONN_REQ;
 	msg->body_len  = sizeof(*body);
 
-	strncpy(body->name, name, sizeof(body->name));
-	body->name[sizeof(body->name)-1] = '\0';
+	strscpy_pad(body->name, name);
 
 	mutex_lock(&chan->lock);
 	switch (chan->state) {
@@ -2180,8 +2179,7 @@ static int tipc_virtio_probe(struct virtio_device *vdev)
 	vdev->config->get(vdev, 0, &config, sizeof(config));
 
 	/* copy dev name */
-	strncpy(vds->cdev_name, config.dev_name, sizeof(vds->cdev_name));
-	vds->cdev_name[sizeof(vds->cdev_name)-1] = '\0';
+	strscpy(vds->cdev_name, config.dev_name);
 
 	/* find tx virtqueues (rx and tx and in this order) */
 	err = vdev->config->find_vqs(vdev, 2, vqs, vqs_info, NULL);
